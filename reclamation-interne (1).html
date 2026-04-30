@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche Interne — Intoxication — The Residence Douz</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1c1610; --ink-m:#3d3228; --ink-l:#7a6a58; --ink-p:#a8978a;
+  --sand:#f4f1ec; --white:#f9f7f3;
+  --gold:#b8955a; --gold-l:#d4b07a; --gold-p:#e8d5b0;
+  --red:#8b2e2e; --green:#4a7a3e;
+  --bdr:rgba(60,50,40,.15); --bdr-s:rgba(60,50,40,.32);
+  --pad:clamp(1.2rem,6vw,3rem);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'EB Garamond',Georgia,serif;background:var(--sand);color:var(--ink);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 0%,rgba(60,50,40,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+.ph{position:relative;z-index:1;background:var(--ink-m);
+  padding:clamp(1rem,4vw,2.5rem) clamp(1rem,5vw,3.5rem);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:.8rem;flex-wrap:wrap;
+  border-bottom:2px solid rgba(184,149,90,.3)}
+.hb{display:flex;flex-direction:column;gap:.15rem}
+.hb-ey{font-family:'Cinzel',serif;font-size:clamp(.44rem,1.3vw,.58rem);letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.hb-n{font-family:'Cinzel',serif;font-size:clamp(1rem,3.5vw,1.5rem);font-weight:500;color:var(--white);letter-spacing:.04em;line-height:1.2}
+.hb-s{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.78rem,2.5vw,.95rem);color:var(--gold-p);letter-spacing:.06em}
+.ho{display:flex;flex-direction:column;align-items:flex-end;gap:.2rem;text-align:right}
+.ho-badge{background:rgba(184,149,90,.2);border:1px solid rgba(184,149,90,.35);padding:.22rem .9rem;font-family:'Cinzel',serif;font-size:clamp(.42rem,1.2vw,.58rem);letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:.2rem}
+.ho-t{font-family:'Cormorant Garamond',serif;font-size:clamp(.78rem,2.5vw,1rem);font-weight:300;color:rgba(249,247,243,.8);letter-spacing:.07em}
+.ho-r{font-family:'EB Garamond',serif;font-size:clamp(.66rem,1.8vw,.78rem);color:var(--ink-p)}
+
+/* Accent line */
+.hl{height:2px;position:relative;z-index:1;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-l),var(--gold),transparent)}
+
+/* ── PROGRESS ── */
+.pw{position:relative;z-index:1;background:var(--ink-m)}
+.pm{display:none;padding:.7rem clamp(1rem,5vw,3.5rem);align-items:center;gap:.9rem}
+.pm-lbl{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.pm-bar{flex:1;height:2px;background:rgba(184,149,90,.15);border-radius:1px;overflow:hidden}
+.pm-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width .4s ease;border-radius:1px}
+.pm-cnt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.88rem;color:var(--gold-p);white-space:nowrap}
+
+.pbar{padding:0 clamp(1rem,5vw,3.5rem) 1.3rem;display:flex;align-items:flex-start;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.pbar::-webkit-scrollbar{display:none}
+.ps{display:flex;flex-direction:column;align-items:center;flex:1;min-width:80px;position:relative;cursor:default;padding-top:.75rem}
+.ps:not(:last-child)::after{content:'';position:absolute;top:calc(.75rem + 11px);left:calc(50% + 11px);right:calc(-50% + 11px);height:1px;background:rgba(184,149,90,.18);z-index:0}
+.ps.done:not(:last-child)::after{background:rgba(184,149,90,.5)}
+.ps-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(184,149,90,.28);background:var(--ink-m);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:all .3s;flex-shrink:0}
+.ps.now .ps-dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 10px rgba(184,149,90,.35)}
+.ps.done .ps-dot{border-color:var(--gold)}
+.ps-dot svg{width:9px;height:9px;fill:none;stroke:var(--gold);stroke-width:2;opacity:0;transition:opacity .3s}
+.ps.done .ps-dot svg{opacity:1}
+.ps-n{font-family:'Cinzel',serif;font-size:clamp(.44rem,1.1vw,.54rem);color:rgba(184,149,90,.38);margin-top:.3rem;transition:color .3s}
+.ps.now .ps-n,.ps.done .ps-n{color:var(--gold)}
+.ps-l{font-family:'Cormorant Garamond',serif;font-size:clamp(.54rem,1.1vw,.63rem);color:rgba(237,228,211,.28);text-align:center;margin-top:.18rem;letter-spacing:.02em;line-height:1.2;transition:color .3s}
+.ps.now .ps-l{color:var(--gold-p)}
+.ps.done .ps-l{color:rgba(237,228,211,.55)}
+
+/* ── MAIN ── */
+.mw{position:relative;z-index:1;max-width:820px;margin:clamp(1.4rem,4vw,3rem) auto clamp(3rem,8vw,5rem);padding:0 clamp(.8rem,4vw,2rem)}
+
+/* ── SECTION CARDS ── */
+.fs{display:none;animation:fd .42s ease forwards}
+.fs.active{display:block}
+@keyframes fd{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+
+.sc{background:var(--white);border:1px solid var(--bdr);border-top:3px solid var(--ink-m);padding:var(--pad);position:relative;box-shadow:0 4px 28px rgba(28,22,16,.08)}
+.sc.gold-top{border-top-color:var(--gold)}
+
+.sh{display:flex;flex-wrap:wrap;align-items:baseline;gap:clamp(.4rem,2vw,.9rem);margin-bottom:clamp(.9rem,3vw,2rem);padding-bottom:clamp(.7rem,2vw,1.2rem);border-bottom:1px solid var(--bdr)}
+.sh-n{font-family:'Cinzel',serif;font-size:clamp(.48rem,1.4vw,.63rem);color:var(--gold);letter-spacing:.18em;white-space:nowrap}
+.sh-t{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,4vw,1.48rem);font-weight:500;color:var(--ink)}
+
+/* ── REF INPUT ── */
+.ref-row{display:flex;align-items:center;gap:.7rem;margin-bottom:clamp(.9rem,3vw,1.6rem);padding:.7rem 1rem;background:rgba(184,149,90,.06);border:1px solid rgba(184,149,90,.22)}
+.ref-lbl{font-family:'Cinzel',serif;font-size:clamp(.48rem,1.4vw,.58rem);letter-spacing:.18em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.ref-inp{font-family:'EB Garamond',serif;font-size:max(16px,1rem);color:var(--ink);background:transparent;border:none;outline:none;flex:1;border-bottom:1px solid var(--bdr-s)}
+.ref-hint{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(.72rem,2vw,.8rem);color:var(--ink-p)}
+
+/* ── FIELDS ── */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,2.5vw,1.2rem);margin-bottom:clamp(.7rem,2.5vw,1.2rem)}
+.fr.s{grid-template-columns:1fr}
+.fr.t{grid-template-columns:1fr 1fr 1fr}
+.fg{display:flex;flex-direction:column;gap:.32rem}
+.fl{font-family:'Cinzel',serif;font-size:clamp(.5rem,1.4vw,.6rem);letter-spacing:.16em;color:var(--ink-l);text-transform:uppercase}
+.fl .r{color:var(--gold);margin-left:.12em}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=time],input[type=number],select,textarea{
+  font-family:'EB Garamond',serif;color:var(--ink);background:var(--white);
+  border:1px solid var(--bdr-s);
+  padding:clamp(.5rem,2vw,.68rem) clamp(.68rem,2.5vw,.92rem);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  width:100%;appearance:none;-webkit-appearance:none;border-radius:0;
+  font-size:max(16px,1rem)}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,149,90,.12)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b8955a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center;padding-right:2rem;cursor:pointer}
+textarea{resize:vertical;min-height:80px;line-height:1.55}
+.fh{font-family:'EB Garamond',serif;font-size:clamp(.7rem,2vw,.78rem);color:var(--ink-p);font-style:italic}
+
+/* ── DIVIDER ── */
+.dv{height:1px;background:var(--bdr);margin:clamp(1rem,4vw,1.8rem) 0;position:relative}
+.dv span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--white);padding:0 clamp(.5rem,2vw,1rem);font-family:'Cinzel',serif;font-size:clamp(.46rem,1.4vw,.54rem);letter-spacing:.18em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+
+/* ── RADIO TOGGLE ── */
+.rt{display:flex;width:fit-content;border:1px solid var(--bdr-s);flex-wrap:wrap}
+.ro{padding:clamp(.38rem,1.5vw,.5rem) clamp(.85rem,3vw,1.35rem);font-family:'Cinzel',serif;font-size:clamp(.52rem,1.5vw,.62rem);letter-spacing:.1em;cursor:pointer;transition:all .2s;border-right:1px solid var(--bdr-s);color:var(--ink-p)}
+.ro:last-child{border-right:none}
+.ro.sel{background:var(--gold);color:var(--white)}
+.ro input{position:absolute;opacity:0}
+
+/* ── CHECKBOX ── */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.38rem,2vw,.58rem)}
+.cg.c1{grid-template-columns:1fr}
+.ci{display:flex;align-items:center;gap:clamp(.45rem,2vw,.7rem);padding:clamp(.5rem,2vw,.65rem) clamp(.55rem,2.5vw,.8rem);border:1px solid var(--bdr);cursor:pointer;transition:all .2s;user-select:none;background:var(--white)}
+.ci:hover{border-color:var(--gold-l);background:rgba(184,149,90,.03)}
+.ci input{position:absolute;opacity:0;width:0;height:0}
+.cb{width:15px;height:15px;border:1.5px solid var(--bdr-s);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ci.ck .cb{background:var(--gold);border-color:var(--gold)}
+.ci.ck .cb::after{content:'';width:7px;height:4.5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+.ct{font-family:'EB Garamond',serif;font-size:clamp(.88rem,2.8vw,.97rem);color:var(--ink-m)}
+.ci.ck .ct{color:var(--ink)}
+
+/* ── CAUSE GRID ── */
+.causeg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.45rem,2vw,.68rem)}
+.causeo{border:1.5px solid var(--bdr);padding:clamp(.65rem,2.5vw,.95rem) clamp(.75rem,3vw,1.1rem);cursor:pointer;display:flex;align-items:center;gap:.65rem;transition:all .22s;background:var(--white)}
+.causeo:hover{border-color:var(--gold-l)}
+.causeo.sel{border-color:var(--gold);background:rgba(184,149,90,.06)}
+.cdot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--bdr-s);flex-shrink:0;transition:all .2s}
+.causeo.sel .cdot{background:var(--gold);border-color:var(--gold)}
+.causetxt{font-family:'EB Garamond',serif;font-size:clamp(.86rem,2.5vw,.94rem);color:var(--ink-m)}
+
+/* ── SIGNATURE ── */
+.sigw{position:relative}
+canvas#sigCanvas{border:1px solid var(--bdr-s);width:100%;height:clamp(85px,20vw,118px);cursor:crosshair;background:var(--sand);display:block;touch-action:none}
+.sigclr{position:absolute;top:.38rem;right:.38rem;font-family:'Cinzel',serif;font-size:clamp(.44rem,1.4vw,.52rem);letter-spacing:.13em;color:var(--ink-p);cursor:pointer;text-transform:uppercase;background:none;border:1px solid var(--bdr);padding:.18rem .45rem;transition:all .2s}
+.sigclr:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── NAV ── */
+.nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;margin-top:clamp(1.4rem,4vw,2.4rem);padding-top:clamp(.9rem,3vw,1.5rem);border-top:1px solid var(--bdr)}
+.nav-ind{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.8rem,2.5vw,.88rem);color:var(--ink-p);order:2}
+.btn{font-family:'Cinzel',serif;font-size:clamp(.52rem,1.7vw,.63rem);letter-spacing:.2em;text-transform:uppercase;padding:clamp(.68rem,2.5vw,.85rem) clamp(1.4rem,5vw,2.1rem);cursor:pointer;border:none;transition:all .22s;white-space:nowrap;min-width:100px;touch-action:manipulation}
+.btn-bk{background:transparent;color:var(--ink-l);border:1px solid var(--bdr-s);order:1}
+.btn-bk:hover{border-color:var(--gold);color:var(--gold)}
+.btn-nx{background:var(--ink-m);color:var(--gold-p);order:3}
+.btn-nx:hover{background:var(--ink)}
+.btn-nx::after{content:' →';font-family:serif;font-size:1em}
+.btn-sb{background:var(--gold);color:var(--ink);font-weight:600;order:3}
+.btn-sb:hover{background:var(--gold-l)}
+.btn-sb:disabled{opacity:.6;cursor:not-allowed}
+.spin{display:inline-block;width:11px;height:11px;border:1.5px solid rgba(28,22,16,.28);border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite;margin-right:.35rem;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ── ERROR ── */
+.errbanner{background:rgba(139,46,46,.08);border:1px solid rgba(139,46,46,.28);color:var(--red);font-family:'EB Garamond',serif;font-style:italic;font-size:.88rem;padding:.75rem 1rem;margin-top:.9rem;display:none;text-align:center}
+.errbanner.vis{display:block}
+
+/* ── SUCCESS ── */
+#suc{display:none;animation:fd .55s ease forwards}
+.succ{background:var(--white);border:1px solid var(--bdr);border-top:3px solid var(--gold);padding:clamp(2.5rem,8vw,4.5rem) clamp(1.2rem,6vw,3rem);text-align:center;box-shadow:0 4px 28px rgba(28,22,16,.08)}
+.succ-o{font-size:2rem;color:var(--gold);margin-bottom:.9rem}
+.succ-t{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,5vw,2rem);font-weight:300;color:var(--ink);letter-spacing:.04em;margin-bottom:.4rem}
+.succ-r{font-family:'Cinzel',serif;font-size:clamp(.58rem,1.8vw,.68rem);letter-spacing:.28em;color:var(--gold);margin-bottom:1.4rem}
+.succ-p{font-family:'EB Garamond',serif;font-size:clamp(.93rem,3vw,1.03rem);color:var(--ink-l);max-width:420px;margin:0 auto 2rem;line-height:1.75}
+.btn-new{background:var(--ink-m);color:var(--gold-p);font-family:'Cinzel',serif;font-size:clamp(.52rem,1.7vw,.63rem);letter-spacing:.2em;padding:clamp(.68rem,2.5vw,.85rem) clamp(1.4rem,5vw,2.1rem);border:none;cursor:pointer;transition:background .22s}
+.btn-new:hover{background:var(--ink)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){.pbar{display:none}.pm{display:flex}}
+@media(max-width:540px){
+  .fr{grid-template-columns:1fr}
+  .fr.t{grid-template-columns:1fr 1fr}
+  .causeg{grid-template-columns:1fr}
+  .cg{grid-template-columns:1fr}
+  .ho{display:none}
+  .nav{flex-direction:column;align-items:stretch}
+  .btn{width:100%;text-align:center;order:unset!important}
+  .nav-ind{text-align:center;order:0!important}
+  .rt{width:100%}.ro{flex:1;text-align:center}
+  .ref-row{flex-direction:column;align-items:flex-start;gap:.5rem}
+}
+@media(max-width:360px){.fr.t{grid-template-columns:1fr}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--sand)}::-webkit-scrollbar-thumb{background:var(--gold-p);border-radius:3px}
+</style>
+</head>
+<body>
+
+<header class="ph">
+  <div class="hb">
+    <span class="hb-ey">The Residence Douz — Qualité &amp; Hygiène</span>
+    <div class="hb-n">Fiche Interne</div>
+    <div class="hb-s">Intoxication alimentaire</div>
+  </div>
+  <div class="ho">
+    <div class="ho-badge">⚠ Usage Interne Uniquement</div>
+    <div class="ho-t">Suivi Opérationnel &amp; Enquête</div>
+    <div class="ho-r">Réf. <span id="refCode">—</span></div>
+  </div>
+</header>
+<div class="hl"></div>
+
+<nav class="pw">
+  <div class="pm" id="pmob">
+    <span class="pm-lbl" id="pmLbl">Opérationnel</span>
+    <div class="pm-bar"><div class="pm-fill" id="pmFill" style="width:20%"></div></div>
+    <span class="pm-cnt" id="pmCnt">1 / 5</span>
+  </div>
+  <div class="pbar">
+    <div class="ps now"><div class="ps-dot"><svg viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1"/></svg></div><span class="ps-n">01</span><span class="ps-l">Opérationnel</span></div>
+    <div class="ps"><div class="ps-dot"><svg viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1"/></svg></div><span class="ps-n">02</span><span class="ps-l">Actions immédiates</span></div>
+    <div class="ps"><div class="ps-dot"><svg viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1"/></svg></div><span class="ps-n">03</span><span class="ps-l">Enquête</span></div>
+    <div class="ps"><div class="ps-dot"><svg viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1"/></svg></div><span class="ps-n">04</span><span class="ps-l">Correctif</span></div>
+    <div class="ps"><div class="ps-dot"><svg viewBox="0 0 12 9"><polyline points="1,4.5 4.5,8 11,1"/></svg></div><span class="ps-n">05</span><span class="ps-l">Clôture</span></div>
+  </div>
+</nav>
+
+<main class="mw">
+
+<!-- ④ OPÉRATIONNEL -->
+<div class="fs active" id="s0"><div class="sc">
+  <div class="sh"><span class="sh-n">Section IV</span><h2 class="sh-t">Information Opérationnelle</h2></div>
+
+  <div class="ref-row">
+    <span class="ref-lbl">Réf. réclamation client</span>
+    <input class="ref-inp" type="text" id="refClient" placeholder="Ex. RI-CLI-2026-4821">
+    <span class="ref-hint">Saisir la référence du formulaire client correspondant</span>
+  </div>
+
+  <div class="fr">
+    <div class="fg"><label class="fl">Chef de cuisine (shift concerné) <span class="r">*</span></label><input type="text" id="chef" placeholder="Nom & prénom"></div>
+    <div class="fg"><label class="fl">Responsable du restaurant <span class="r">*</span></label><input type="text" id="respR" placeholder="Nom & prénom"></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Numéro de lot du produit</label><input type="text" id="lot" placeholder="N° lot fournisseur"></div>
+    <div class="fg"><label class="fl">Température des aliments servis</label><input type="text" id="temp" placeholder="Ex. 65°C chaud / 4°C froid"></div>
+  </div>
+  <div class="fr s">
+    <div class="fg"><label class="fl">Référence fiche HACCP correspondante</label><input type="text" id="haccp" placeholder="Code ou intitulé de la fiche HACCP"></div>
+  </div>
+
+  <div class="nav">
+    <span class="nav-ind">Étape 1 sur 5</span>
+    <button class="btn btn-nx" onclick="go(1)">Suivant</button>
+  </div>
+</div></div>
+
+<!-- ⑤ ACTIONS IMMÉDIATES -->
+<div class="fs" id="s1"><div class="sc">
+  <div class="sh"><span class="sh-n">Section V</span><h2 class="sh-t">Actions Immédiates Prises</h2></div>
+
+  <div class="fr">
+    <div class="fg">
+      <label class="fl">Assistance médicale proposée <span class="r">*</span></label>
+      <div class="rt" id="assMed">
+        <label class="ro" onclick="selRad('assMed',this)"><input type="radio" name="assMed">Oui</label>
+        <label class="ro" onclick="selRad('assMed',this)"><input type="radio" name="assMed">Non</label>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Plat retiré du service <span class="r">*</span></label>
+      <div class="rt" id="platRet">
+        <label class="ro" onclick="selRad('platRet',this)"><input type="radio" name="platRet">Oui</label>
+        <label class="ro" onclick="selRad('platRet',this)"><input type="radio" name="platRet">Non</label>
+      </div>
+    </div>
+  </div>
+  <div class="fr">
+    <div class="fg">
+      <label class="fl">Échantillon conservé <span class="r">*</span></label>
+      <div class="rt" id="ech">
+        <label class="ro" onclick="selRad('ech',this)"><input type="radio" name="ech">Oui</label>
+        <label class="ro" onclick="selRad('ech',this)"><input type="radio" name="ech">Non</label>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Enquête interne lancée <span class="r">*</span></label>
+      <div class="rt" id="enq">
+        <label class="ro" onclick="selRad('enq',this)"><input type="radio" name="enq">Oui</label>
+        <label class="ro" onclick="selRad('enq',this)"><input type="radio" name="enq">Non</label>
+      </div>
+    </div>
+  </div>
+  <div class="fr s">
+    <div class="fg">
+      <label class="fl">Intervention médecin / clinique</label>
+      <textarea id="medInt" placeholder="Nom du médecin, clinique contactée, ou 'Non requis'…" rows="2"></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-bk" onclick="go(0)">← Retour</button>
+    <span class="nav-ind">Étape 2 sur 5</span>
+    <button class="btn btn-nx" onclick="go(2)">Suivant</button>
+  </div>
+</div></div>
+
+<!-- ⑥ ENQUÊTE -->
+<div class="fs" id="s2"><div class="sc">
+  <div class="sh"><span class="sh-n">Section VI</span><h2 class="sh-t">Résultat de l'Enquête</h2></div>
+
+  <div class="fg" style="margin-bottom:.85rem"><label class="fl">Cause probable identifiée <span class="r">*</span></label></div>
+  <div class="causeg" id="causeSel">
+    <div class="causeo" data-v="Mauvaise conservation" onclick="selCause(this)"><div class="cdot"></div><span class="causetxt">Mauvaise conservation</span></div>
+    <div class="causeo" data-v="Rupture chaîne du froid" onclick="selCause(this)"><div class="cdot"></div><span class="causetxt">Rupture de la chaîne du froid</span></div>
+    <div class="causeo" data-v="Contamination croisée" onclick="selCause(this)"><div class="cdot"></div><span class="causetxt">Contamination croisée</span></div>
+    <div class="causeo" data-v="Erreur de manipulation" onclick="selCause(this)"><div class="cdot"></div><span class="causetxt">Erreur de manipulation</span></div>
+    <div class="causeo" data-v="Non confirmée" onclick="selCause(this)"><div class="cdot"></div><span class="causetxt">Non confirmée à ce stade</span></div>
+  </div>
+  <div class="fr s" style="margin-top:1.2rem">
+    <div class="fg">
+      <label class="fl">Observations &amp; résultats d'analyse</label>
+      <textarea id="obs" placeholder="Résultats analyses microbiologiques, constats terrain, éléments de preuve…" rows="4"></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-bk" onclick="go(1)">← Retour</button>
+    <span class="nav-ind">Étape 3 sur 5</span>
+    <button class="btn btn-nx" onclick="go(3)">Suivant</button>
+  </div>
+</div></div>
+
+<!-- ⑦ ACTIONS CORRECTIVES -->
+<div class="fs" id="s3"><div class="sc">
+  <div class="sh"><span class="sh-n">Section VII</span><h2 class="sh-t">Actions Correctives &amp; Préventives</h2></div>
+
+  <div class="fg" style="margin-bottom:.8rem"><label class="fl">Mesures engagées <span class="r">*</span></label></div>
+  <div class="cg c1" id="actCor">
+    <label class="ci" onclick="togCk(this)"><input type="checkbox" value="Formation du personnel"><div class="cb"></div><span class="ct">Formation du personnel</span></label>
+    <label class="ci" onclick="togCk(this)"><input type="checkbox" value="Renforcement contrôle températures"><div class="cb"></div><span class="ct">Renforcement du contrôle des températures</span></label>
+    <label class="ci" onclick="togCk(this)"><input type="checkbox" value="Révision procédure HACCP"><div class="cb"></div><span class="ct">Révision de la procédure HACCP</span></label>
+    <label class="ci" onclick="togCk(this)"><input type="checkbox" value="Sanction / rappel interne"><div class="cb"></div><span class="ct">Sanction disciplinaire / rappel interne</span></label>
+    <label class="ci" onclick="togCk(this)"><input type="checkbox" value="Audit hygiène supplémentaire"><div class="cb"></div><span class="ct">Audit hygiène supplémentaire</span></label>
+  </div>
+  <div class="fr s" style="margin-top:1rem">
+    <div class="fg">
+      <label class="fl">Autres mesures</label>
+      <textarea id="autAct" placeholder="Toute mesure complémentaire non listée ci-dessus…" rows="2"></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-bk" onclick="go(2)">← Retour</button>
+    <span class="nav-ind">Étape 4 sur 5</span>
+    <button class="btn btn-nx" onclick="go(4)">Suivant</button>
+  </div>
+</div></div>
+
+<!-- ⑧ CLÔTURE -->
+<div class="fs" id="s4"><div class="sc gold-top">
+  <div class="sh"><span class="sh-n">Section VIII</span><h2 class="sh-t">Clôture de la Réclamation</h2></div>
+
+  <div class="fr">
+    <div class="fg"><label class="fl">Date de clôture <span class="r">*</span></label><input type="date" id="dclo"></div>
+    <div class="fg"><label class="fl">Responsable Qualité <span class="r">*</span></label><input type="text" id="respQ" placeholder="Nom & prénom"></div>
+  </div>
+  <div class="fr s">
+    <div class="fg">
+      <label class="fl">Feedback client après traitement</label>
+      <textarea id="feedbk" placeholder="Résumé de la réponse apportée, compensation éventuelle, satisfaction recueillie…" rows="3"></textarea>
+    </div>
+  </div>
+
+  <div class="dv"><span>Signature du Responsable Qualité</span></div>
+  <div class="fg">
+    <label class="fl">Signature <span class="r">*</span></label>
+    <div class="sigw">
+      <canvas id="sigCanvas" width="800" height="120"></canvas>
+      <button class="sigclr" onclick="clrSig()">Effacer</button>
+    </div>
+    <div class="fh">Tracer avec la souris, le stylet ou le doigt.</div>
+  </div>
+
+  <div class="errbanner" id="errBan">Une erreur est survenue lors de l'envoi. Vérifiez votre connexion et réessayez.</div>
+
+  <div class="nav">
+    <button class="btn btn-bk" onclick="go(3)">← Retour</button>
+    <span class="nav-ind">Étape 5 sur 5</span>
+    <button class="btn btn-sb" id="sbBtn" onclick="submitForm()">✦ Clôturer &amp; Archiver</button>
+  </div>
+</div></div>
+
+<!-- SUCCESS -->
+<div id="suc">
+  <div class="succ">
+    <div class="succ-o">✦</div>
+    <div class="succ-t">Fiche archivée</div>
+    <div class="succ-r" id="sucRef">—</div>
+    <div class="succ-p">La fiche interne a été transmise et archivée.<br>Référence conservée pour le suivi qualité.</div>
+    <button class="btn-new" onclick="resetForm()">Nouvelle fiche interne</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+const LABELS = ['Opérationnel','Actions immédiates','Enquête','Correctif','Clôture'];
+let cur = 0;
+
+const ref = 'RI-INT-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*9000)+1000);
+document.getElementById('refCode').textContent = ref;
+document.getElementById('sucRef').textContent  = ref;
+document.getElementById('dclo').value = new Date().toISOString().split('T')[0];
+
+function go(n) {
+  document.getElementById('s'+cur).classList.remove('active');
+  const ps = document.querySelectorAll('.ps');
+  ps[cur].classList.remove('now');
+  if (n > cur) ps[cur].classList.add('done');
+  cur = n;
+  document.getElementById('s'+cur).classList.add('active');
+  ps[cur].classList.add('now');
+  ps[cur].classList.remove('done');
+  document.getElementById('pmLbl').textContent  = LABELS[cur];
+  document.getElementById('pmCnt').textContent  = (cur+1)+' / 5';
+  document.getElementById('pmFill').style.width = ((cur+1)/5*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function selRad(id,el) {
+  document.querySelectorAll('#'+id+' .ro').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function selCause(el) {
+  document.querySelectorAll('.causeo').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function togCk(el) {
+  event.preventDefault();
+  el.classList.toggle('ck');
+  el.querySelector('input').checked = el.classList.contains('ck');
+}
+
+/* ── SIGNATURE ── */
+const cv=document.getElementById('sigCanvas'),cx=cv.getContext('2d');
+let drw=false,lx,ly;
+cx.strokeStyle='#1c1610';cx.lineWidth=1.5;cx.lineCap='round';cx.lineJoin='round';
+function pos(e){const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height;if(e.touches)return{x:(e.touches[0].clientX-r.left)*sx,y:(e.touches[0].clientY-r.top)*sy};return{x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy}}
+function drwL(e){if(!drw)return;const p=pos(e);cx.beginPath();cx.moveTo(lx,ly);cx.lineTo(p.x,p.y);cx.stroke();lx=p.x;ly=p.y}
+cv.addEventListener('mousedown',e=>{drw=true;const p=pos(e);lx=p.x;ly=p.y});
+cv.addEventListener('mousemove',drwL);
+cv.addEventListener('mouseup',()=>drw=false);
+cv.addEventListener('mouseleave',()=>drw=false);
+cv.addEventListener('touchstart',e=>{e.preventDefault();drw=true;const p=pos(e);lx=p.x;ly=p.y},{passive:false});
+cv.addEventListener('touchmove',e=>{e.preventDefault();drwL(e)},{passive:false});
+cv.addEventListener('touchend',()=>drw=false);
+function clrSig(){cx.clearRect(0,0,cv.width,cv.height)}
+
+function collect() {
+  const gR=id=>{const s=document.querySelector('#'+id+' .ro.sel');return s?s.textContent.trim():'—'};
+  const gCk=id=>[...document.querySelectorAll('#'+id+' .ci.ck')].map(e=>e.querySelector('.ct').textContent).join(', ')||'—';
+  const causeEl=document.querySelector('.causeo.sel');
+  return {
+    '--- FICHE INTERNE ---':'',
+    'Référence interne':ref,
+    'Réf. formulaire client':document.getElementById('refClient').value||'—',
+    'Date soumission':new Date().toLocaleDateString('fr-FR'),
+    // Section IV
+    'Chef de cuisine':document.getElementById('chef').value||'—',
+    'Resp. restaurant':document.getElementById('respR').value||'—',
+    'N° de lot':document.getElementById('lot').value||'—',
+    'Température aliments':document.getElementById('temp').value||'—',
+    'Fiche HACCP':document.getElementById('haccp').value||'—',
+    // Section V
+    'Assistance médicale':gR('assMed'),
+    'Plat retiré':gR('platRet'),
+    'Échantillon conservé':gR('ech'),
+    'Enquête lancée':gR('enq'),
+    'Intervention médicale':document.getElementById('medInt').value||'—',
+    // Section VI
+    'Cause probable':causeEl?causeEl.dataset.v:'—',
+    'Observations enquête':document.getElementById('obs').value||'—',
+    // Section VII
+    'Actions correctives':gCk('actCor'),
+    'Autres actions':document.getElementById('autAct').value||'—',
+    // Section VIII
+    'Date de clôture':document.getElementById('dclo').value,
+    'Responsable Qualité':document.getElementById('respQ').value||'—',
+    'Feedback client':document.getElementById('feedbk').value||'—',
+    'Signature':cv.toDataURL('image/png'),
+  };
+}
+
+async function submitForm() {
+  const btn=document.getElementById('sbBtn');
+  const err=document.getElementById('errBan');
+  err.classList.remove('vis');
+  const d=collect();
+
+  const payload={
+    access_key:'b1c7ee43-09ef-4ab7-a1dc-179d51e650e3',
+    subject:'[INTERNE] Fiche Cloturee '+ref+' - Ref: '+(d['Réf. formulaire client']||''),
+    from_name:'The Residence Douz - Interne',
+    Reference_interne:ref,
+    Ref_client:d['Réf. formulaire client']||'',
+    Chef_cuisine:d['Chef de cuisine']||'',
+    Resp_restaurant:d['Resp. restaurant']||'',
+    Num_lot:d['N° de lot']||'',
+    Temperature:d['Température aliments']||'',
+    Fiche_HACCP:d['Fiche HACCP']||'',
+    Assistance_medicale:d['Assistance médicale']||'',
+    Plat_retire:d['Plat retiré']||'',
+    Echantillon:d['Échantillon conservé']||'',
+    Enquete_lancee:d['Enquête lancée']||'',
+    Intervention:d['Intervention médicale']||'',
+    Cause_probable:d['Cause probable']||'',
+    Observations:d['Observations enquête']||'',
+    Actions_correctives:d['Actions correctives']||'',
+    Autres_actions:d['Autres actions']||'',
+    Date_cloture:d['Date de clôture']||'',
+    Resp_qualite:d['Responsable Qualité']||'',
+    Feedback:d['Feedback client']||'',
+  };
+
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>Archivage…';
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if(json.success){
+      document.querySelectorAll('.fs').forEach(s=>s.classList.remove('active'));
+      document.querySelectorAll('.ps').forEach(s=>{s.classList.remove('now');s.classList.add('done')});
+      document.getElementById('suc').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else {
+      err.textContent='Erreur : '+(json.message||'Veuillez réessayer.');
+      err.classList.add('vis');
+      btn.disabled=false;
+      btn.innerHTML='❖ Clôturer &amp; Archiver';
+    }
+  } catch(e) {
+    err.textContent='Erreur réseau : '+e.message;
+    err.classList.add('vis');
+    btn.disabled=false;
+    btn.innerHTML='❖ Clôturer &amp; Archiver';
+  }
+}
+
+function resetForm() {
+  document.getElementById('suc').style.display='none';
+  cur=0;
+  document.querySelectorAll('.ps').forEach((s,i)=>{s.classList.remove('now','done');if(i===0)s.classList.add('now')});
+  document.getElementById('s0').classList.add('active');
+  document.getElementById('pmLbl').textContent=LABELS[0];
+  document.getElementById('pmCnt').textContent='1 / 5';
+  document.getElementById('pmFill').style.width='20%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
